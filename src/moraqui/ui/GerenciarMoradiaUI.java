@@ -13,15 +13,17 @@ import moraqui.entity.GerenciarMoradia;
  * @author Thayna
  */
 public class GerenciarMoradiaUI extends javax.swing.JFrame {
+    String id;
+    
     GerenciarMoradiaDAO ger;
     GerenciarMoradia moradia;
     
-    public GerenciarMoradiaUI() {
+    public GerenciarMoradiaUI(String id) {
         initComponents();
         ger = new GerenciarMoradiaDAO();
         moradia = new GerenciarMoradia();
+        this.id = id;
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,7 +33,7 @@ public class GerenciarMoradiaUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabMoradia = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -54,21 +56,21 @@ public class GerenciarMoradiaUI extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
+        txt_End = new javax.swing.JTextField();
+        txt_min = new javax.swing.JTextField();
+        txt_max = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        btn_Pesq = new javax.swing.JToggleButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableMoradia = new javax.swing.JTable();
+        cbGenero2 = new javax.swing.JComboBox();
+        ck_Valor = new javax.swing.JCheckBox();
+        ck_End = new javax.swing.JCheckBox();
+        ck_Tipo = new javax.swing.JCheckBox();
+        ck_Gen = new javax.swing.JCheckBox();
+        cbTipo2 = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("<html>Endereço <font color=\"red\">*</font>");
 
@@ -144,7 +146,6 @@ public class GerenciarMoradiaUI extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(65, 65, 65)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -196,7 +197,7 @@ public class GerenciarMoradiaUI extends javax.swing.JFrame {
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(txtCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -209,27 +210,29 @@ public class GerenciarMoradiaUI extends javax.swing.JFrame {
                 .addGap(40, 40, 40))
         );
 
-        jTabbedPane1.addTab("Informações Moradia", jPanel1);
+        tabMoradia.addTab("Informações Moradia", jPanel1);
 
-        jLabel8.setText("Endereço");
+        txt_End.setEnabled(false);
 
-        jLabel9.setText("Tipo");
-
-        jLabel10.setText("Gênero");
-
-        jLabel11.setText("Valor de:");
-
-        jTextField10.addActionListener(new java.awt.event.ActionListener() {
+        txt_min.setEnabled(false);
+        txt_min.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField10ActionPerformed(evt);
+                txt_minActionPerformed(evt);
             }
         });
 
+        txt_max.setEnabled(false);
+
         jLabel12.setText("Até:");
 
-        jToggleButton1.setText("Pesquisar");
+        btn_Pesq.setText("Pesquisar");
+        btn_Pesq.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_PesqActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableMoradia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -240,7 +243,47 @@ public class GerenciarMoradiaUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tableMoradia.setEnabled(false);
+        tableMoradia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMoradiaMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tableMoradia);
+
+        cbGenero2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Feminino", "Masculino", "Misto" }));
+        cbGenero2.setEnabled(false);
+
+        ck_Valor.setText("Valor de");
+        ck_Valor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ck_ValorActionPerformed(evt);
+            }
+        });
+
+        ck_End.setText("Endereço");
+        ck_End.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ck_EndActionPerformed(evt);
+            }
+        });
+
+        ck_Tipo.setText("Tipo");
+        ck_Tipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ck_TipoActionPerformed(evt);
+            }
+        });
+
+        ck_Gen.setText("Gênero");
+        ck_Gen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ck_GenActionPerformed(evt);
+            }
+        });
+
+        cbTipo2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Apartamento", "Casa", "Edícula", "Kitnet", "Pensionato", "República" }));
+        cbTipo2.setEnabled(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -249,90 +292,85 @@ public class GerenciarMoradiaUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField4))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel11))
-                        .addGap(18, 18, 18)
+                            .addComponent(ck_Valor)
+                            .addComponent(ck_End)
+                            .addComponent(ck_Tipo))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextField8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(txt_min, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel12))
+                                    .addComponent(cbTipo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                            .addComponent(jTextField9))))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txt_max, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(23, 23, 23)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(25, 25, 25)
+                                        .addComponent(btn_Pesq, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(ck_Gen)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cbGenero2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(16, 16, 16))))
+                            .addComponent(txt_End, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_End, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ck_End))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbGenero2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ck_Tipo)
+                    .addComponent(ck_Gen)
+                    .addComponent(cbTipo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_min, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_max, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
-                    .addComponent(jToggleButton1))
-                .addGap(83, 83, 83)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                    .addComponent(btn_Pesq)
+                    .addComponent(ck_Valor))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Consultar Moradia", jPanel2);
+        tabMoradia.addTab("Consultar Moradia", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+            .addComponent(tabMoradia, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(tabMoradia)
         );
+
+        getAccessibleContext().setAccessibleParent(this);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
-    }//GEN-LAST:event_jTextField10ActionPerformed
-
     private void btnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirActionPerformed
-        moradia.setMoradia(txtEndereco.getText(), txtCep.getText(), cbTipo.getSelectedItem().toString(), 
-                txtArea.getText(), cbGenero.getSelectedItem().toString(), txtQuantMorador.getText(), txtValor.getText());
+
+        moradia.setMoradia(id, txtEndereco.getText(), txtCep.getText(), cbTipo.getSelectedItem().toString(),
+            txtArea.getText(), cbGenero.getSelectedItem().toString(), txtQuantMorador.getText(), txtValor.getText());
         ger.cadastrar(moradia);
-        
+
         //CAMPO OBRIGATÓRIO
         if(txtEndereco.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Endereço - Campo Obrigatório", "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -347,56 +385,149 @@ public class GerenciarMoradiaUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Valor - Campo Obrigatório", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
         
+        limpar();
+
     }//GEN-LAST:event_btnIncluirActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+
         if(JOptionPane.showConfirmDialog(null,"Deseja realmente excluir esta moradia?","Excluir Moradia", JOptionPane.YES_NO_CANCEL_OPTION) == JOptionPane.YES_OPTION)
             ger.excluir(moradia);
+        limpar();
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        moradia.setMoradia(txtEndereco.getText(), txtCep.getText(), cbTipo.getSelectedItem().toString(), 
-                txtArea.getText(), cbGenero.getSelectedItem().toString(), txtQuantMorador.getText(), txtValor.getText());
+        moradia.setMoradia(id, txtEndereco.getText(), txtCep.getText(), cbTipo.getSelectedItem().toString(),
+            txtArea.getText(), cbGenero.getSelectedItem().toString(), txtQuantMorador.getText(), txtValor.getText());       
+        limpar();
         ger.alterar(moradia);
     }//GEN-LAST:event_btnAlterarActionPerformed
 
+    private void limpar(){
+        txtEndereco.setText("");
+        txtCep.setText("");
+        txtArea.setText("");
+        txtQuantMorador.setText("");
+        txtValor.setText("");
+    }
+    
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         System.exit(WIDTH);
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txt_minActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_minActionPerformed
+
+    }//GEN-LAST:event_txt_minActionPerformed
+
+    private void btn_PesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_PesqActionPerformed
+        String condicoes = "CODLOCATOR = '"+id+"'";
+        if(ck_End.isSelected())
+                condicoes = " AND endereco LIKE '%"+txt_End.getText()+"%' ";
+        if(ck_Tipo.isSelected())
+                condicoes = condicoes + " AND tipo = "+cbTipo2.getSelectedItem().toString()+" ";
+        if(ck_Gen.isSelected())
+                condicoes = condicoes + " AND genero = "+cbGenero2.getSelectedItem().toString()+ " ";
+        if(ck_Valor.isSelected()){
+                if (txt_min.equals(""))
+                    condicoes = condicoes + " AND valorunitario BETWEEN 0 AND "+txt_max.getText()+" ";
+                else{
+                    if (txt_max.equals(""))
+                        condicoes = condicoes + " AND valorunitario BETWEEN "+txt_min.getText()+" AND 100000000";
+                    else
+                        condicoes = condicoes + " AND valorunitario BETWEEN "+txt_min.getText()+" AND "+txt_max.getText()+"";
+                } 
+        }
+        DefaultTableModel model = ger.pesquisar(condicoes);
+        tableMoradia.setModel(model);
+    }//GEN-LAST:event_btn_PesqActionPerformed
+
+    private void ck_EndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ck_EndActionPerformed
+        if (ck_End.isSelected())
+            txt_End.setEnabled(true);
+        else
+            txt_End.setEditable(false);
+    }//GEN-LAST:event_ck_EndActionPerformed
+
+    private void ck_TipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ck_TipoActionPerformed
+       if (ck_Tipo.isSelected())
+           cbTipo2.setEnabled(true);
+       else
+           cbTipo2.setEnabled(false);
+    }//GEN-LAST:event_ck_TipoActionPerformed
+
+    private void ck_GenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ck_GenActionPerformed
+        if (ck_Gen.isSelected())
+            cbGenero2.setEnabled(true);
+        else
+            cbGenero2.setEnabled(false);
+    }//GEN-LAST:event_ck_GenActionPerformed
+
+    private void ck_ValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ck_ValorActionPerformed
+        if (ck_Valor.isSelected()){
+            txt_min.setEnabled(true);
+            txt_max.setEnabled(true);
+        }
+        else{
+            txt_min.setEnabled(false);
+            txt_max.setEnabled(false);
+        }
+            
+    }//GEN-LAST:event_ck_ValorActionPerformed
+
+    private void tableMoradiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMoradiaMouseClicked
+       int linha = tableMoradia.rowAtPoint(evt.getPoint());
+        if(evt.getClickCount() == 1){
+            
+            txtEndereco.setText(tableMoradia.getModel().getValueAt(linha, 0).toString());
+            txtCep.setText(tableMoradia.getModel().getValueAt(linha, 1).toString());
+            txtArea.setText(tableMoradia.getModel().getValueAt(linha, 3).toString());
+            txtQuantMorador.setText(tableMoradia.getModel().getValueAt(linha, 5).toString());
+            txtValor.setText(tableMoradia.getModel().getValueAt(linha, 6).toString());
+            moradia.setTipo(tableMoradia.getModel().getValueAt(linha, 2).toString());
+            switch (tableMoradia.getModel().getValueAt(linha, 2).toString()) {
+                 case "Apartamento":
+                    cbTipo.setSelectedIndex(0);
+                    break;
+                case "Casa":
+                    cbTipo.setSelectedIndex(1);
+                    break;
+                case "Edícula":
+                    cbTipo.setSelectedIndex(2);
+                    break;
+                case "Kitnet":
+                    cbTipo.setSelectedIndex(3);
+                    break;
+                case "Pensionato":
+                    cbTipo.setSelectedIndex(4);
+                    break;
+                case "República":
+                    cbTipo.setSelectedIndex(5);
+                    break;
+            }
+            moradia.setGenero(tableMoradia.getModel().getValueAt(linha, 4).toString());
+            switch (tableMoradia.getModel().getValueAt(linha, 4).toString()) {
+                case "Feminino":
+                    cbGenero.setSelectedIndex(0);
+                    break;
+                case "Masculino":
+                    cbGenero.setSelectedIndex(1);
+                    break;
+            }
+            
+            moradia.setMoradia(id, txtEndereco.getText(), txtCep.getText(), cbTipo.getSelectedItem().toString(), txtArea.getText(), cbGenero.getSelectedItem().toString(), txtQuantMorador.getText(), txtValor.getText());
+            
+            tabMoradia.setSelectedIndex(0);
+        }
+        
+        String codmoradia = ger.codMoradia(tableMoradia.getModel().getValueAt(linha, 0).toString());
+        moradia.setCodMoradia(codmoradia);
+    }//GEN-LAST:event_tableMoradiaMouseClicked
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GerenciarMoradiaUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GerenciarMoradiaUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GerenciarMoradiaUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GerenciarMoradiaUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GerenciarMoradiaUI().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -404,11 +535,16 @@ public class GerenciarMoradiaUI extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnCancelar;
     private javax.swing.JToggleButton btnExcluir;
     private javax.swing.JToggleButton btnIncluir;
+    private javax.swing.JToggleButton btn_Pesq;
     private javax.swing.JComboBox cbGenero;
+    private javax.swing.JComboBox cbGenero2;
     private javax.swing.JComboBox cbTipo;
+    private javax.swing.JComboBox cbTipo2;
+    private javax.swing.JCheckBox ck_End;
+    private javax.swing.JCheckBox ck_Gen;
+    private javax.swing.JCheckBox ck_Tipo;
+    private javax.swing.JCheckBox ck_Valor;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -418,23 +554,22 @@ public class GerenciarMoradiaUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JTabbedPane tabMoradia;
+    private javax.swing.JTable tableMoradia;
     private javax.swing.JTextField txtArea;
     private javax.swing.JTextField txtCep;
     private javax.swing.JTextField txtEndereco;
     private javax.swing.JTextField txtQuantMorador;
     private javax.swing.JTextField txtValor;
+    private javax.swing.JTextField txt_End;
+    private javax.swing.JTextField txt_max;
+    private javax.swing.JTextField txt_min;
     // End of variables declaration//GEN-END:variables
+
+    private void and(boolean equals) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

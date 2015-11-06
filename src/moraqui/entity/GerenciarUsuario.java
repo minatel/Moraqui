@@ -12,6 +12,16 @@ import java.util.Date;
  * @author Jessica Terada
  */
 public class GerenciarUsuario {
+    private static String id;
+
+    public static String getIdTipo() {
+        return idTipo;
+    }
+
+    public static void setIdTipo(String idTipo) {
+        GerenciarUsuario.idTipo = idTipo;
+    }
+    private static String idTipo;
     private String nome;
     private String rg;
     private String cpf;
@@ -19,18 +29,65 @@ public class GerenciarUsuario {
     private String dataNascimento;
     private String cep;
     private String sexo;
+    private String senha; 
+    private static String tipo;
+    private boolean situacao;
+    private String alergias;
+    private boolean fumante;
+
+
+    public String getAlergias() {
+        return alergias;
+    }
+
+    public boolean isFumante() {
+        return fumante;
+    }
 
     
-    public void setUsuario(String nome, String rg, String cpf,String dataNascimento, String endereco, String cep, String sexo){
+
+    public void setFumante(boolean fumante) {
+        this.fumante = fumante;
+    }
+
+    public static void setTipo(String tipo) {
+        GerenciarUsuario.tipo = tipo;
+    }
+    
+    public void setAlergias(String alergias){
+        this.alergias = alergias;
+    }
+
+    public void setUsuario(String rg, String senha){
+        this.rg = rg;
+        this.senha = senha;
+    }
+    
+    public void setUsuario(String nome, String rg, String cpf,String dataNascimento, String senha, String endereco, String cep, String sexo, String tipo){
         this.nome = nome;
         this.rg = rg;
         this.cpf = cpf;
+        this.senha = senha;
         this.endreco = endereco;
         this.sexo = sexo;
         this.cep = cep;
         this.dataNascimento = dataNascimento;
-    
+        this.tipo = tipo;
+        this.situacao = false;    
     }
+
+    public static String getId(){
+        return id;
+    }
+    
+    public static String getTipo(){
+        return tipo;
+    }
+    
+    public String getSenha() {
+        return senha;
+    }
+    
     public String getNome() {
         return nome;
     }
@@ -57,6 +114,18 @@ public class GerenciarUsuario {
 
     public String getSexo() {
         return sexo;
+    }
+    
+    public boolean getSituacao(){
+        return situacao;
+    }
+    
+    public static void setId(String id){
+        GerenciarUsuario.id = id;
+    }
+    
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
     
     public void setNome(String nome) {
@@ -87,5 +156,44 @@ public class GerenciarUsuario {
         this.sexo = sexo;
     }
 
-    
+    public boolean TesteCepNegativo(){
+        if(Integer.parseInt(cep) <= 0)
+               return false;
+        return true;
+    }
+    public boolean TesteRgNegativo(){
+        if(Integer.parseInt(rg) <= 0)
+               return false;
+        return true;
+    }
+    public boolean TesteCpfNegativo(){
+        if(Integer.parseInt(cpf) <= 0)
+               return false;
+        return true;
+    }
+    public boolean TesteSexoErrado(){
+        if(sexo != "feminino" || sexo != "masculino" || sexo != "outros")
+               return false;
+        return true;
+    }
+    public boolean TesteTipoDiferente(){
+        if(tipo != "locador" || sexo != "locatario" || sexo != "gerenciador")
+               return false;
+        return true;
+    }
+    public boolean TesteAnoDataNascZero(){
+        if(Integer.parseInt(dataNascimento.substring(0, 4)) <=0 )
+               return false;
+        return true;
+    }
+    public boolean TesteMesDataNascZero(){
+        if(Integer.parseInt(dataNascimento.substring(5, 7)) <=0 || Integer.parseInt(dataNascimento.substring(5, 7)) >= 13)
+               return false;
+        return true;
+    }
+    public boolean TesteDiaDataNascZero(){
+        if(Integer.parseInt(dataNascimento.substring(8, 10)) <=0 || Integer.parseInt(dataNascimento.substring(8, 10)) >= 32)
+               return false;
+        return true;
+    }
 }

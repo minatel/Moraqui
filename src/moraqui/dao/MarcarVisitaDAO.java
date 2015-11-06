@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package moraqui.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -5,21 +10,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import moraqui.ui.GerenciarMoradiaUI;
 import moraqui.entity.GerenciarMoradia;
+import moraqui.entity.MarcarVisita;
 /**
  *
- * @author Thayna
+ * @author Jéssica
  */
-public class GerenciarMoradiaDAO {
+public class MarcarVisitaDAO {
+    
     Connection cn;
     Statement stm;
     boolean conectado = false;
-
+    
     
     public void Conectar(){
         if(!conectado)
@@ -53,21 +62,20 @@ public class GerenciarMoradiaDAO {
         }
     
     }
-    public void cadastrar(GerenciarMoradia moradia){
+    
+    public void cadastrar(MarcarVisita visita){
         Conectar();
         try
         {   
-            stm.executeUpdate("INSERT INTO Moradia (codlocator, endereco, cep, tipo, area, genero, quantMorador, valorUnitario) "
-                    +"VALUES('"+ moradia.getCodLocator()+"','"
-                    + moradia.getEndereco() +"', '"
-                    + moradia.getCep()+"', '"
-                    + moradia.getTipo() + "', '"
-                    + moradia.getArea() +"', '"
-                    + moradia.getGenero() +"', '"
-                    + moradia.getQuantMorador() +"', '"
-                    + moradia.getValor() +"')");
+            stm.executeUpdate("INSERT INTO visita (codlocatario, codmoradia, datavisita, horavisita, descricao, status) "
+                    +"VALUES('"+ visita.getIdLocatario()+"','"
+                    + visita.getIdMoradia()+"', '"
+                    + visita.getData()+"', '"
+                    + visita.getHora()+"', '"
+                    + visita.getDescricao() + "', '"
+                    + visita.getStatus() +"')");
           
-            JOptionPane.showMessageDialog(null, "Moradia Registrada", "Registro", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Visita Registrada", "Registro", JOptionPane.INFORMATION_MESSAGE);
         }
         catch(SQLException erro){
             JOptionPane.showMessageDialog(null, erro, "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -104,28 +112,12 @@ public class GerenciarMoradiaDAO {
           
         return aModel;
     }
-    public void alterar(GerenciarMoradia moradia){
-        Conectar();
-        try{          
-            stm.executeUpdate("UPDATE Moradia SET ENDERECO = '" + moradia.getEndereco() + 
-                    "', CEP = " + moradia.getCep() + 
-                    ", TIPO = '" + moradia.getTipo() + 
-                    "', AREA = '" + moradia.getArea() +
-                    "', GENERO = '" + moradia.getGenero() + 
-                    "', QUANTMORADOR = '" + moradia.getQuantMorador() +
-                    "', VALORUNITARIO = '" + moradia.getValor()+ "' WHERE codMoradia = '"+moradia.getCodMoradia()+"'");
-             
-            JOptionPane.showMessageDialog(null, "Atualização Realizado", "Atualização", JOptionPane.INFORMATION_MESSAGE);
-        }
-        catch(SQLException e){
-            JOptionPane.showMessageDialog(null, e, "Aviso", JOptionPane.WARNING_MESSAGE);
-        }
-    }
-    public void excluir(GerenciarMoradia moradia){
+    
+    public void excluir(String idMoradia, String idLocatario){
         Conectar();
         try
         {
-            stm.executeUpdate("DELETE FROM moradia where codMoradia = " + moradia.getCodMoradia()+ "");
+            stm.executeUpdate("DELETE FROM visita where codmoradia = " + idMoradia+ " and codLocatario = "+idLocatario+"");
             JOptionPane.showMessageDialog(null, "Exclusão Realizada","Excluir", JOptionPane.INFORMATION_MESSAGE);
         }
         catch(SQLException ee){
@@ -133,20 +125,61 @@ public class GerenciarMoradiaDAO {
         }
     }
     
+    public void alterar(MarcarVisita visita){
+        Conectar();
+        try{          
+            stm.executeUpdate("UPDATE visita SET DATAVISITA = '"  
+                    + visita.getData()+"', HORAVISITA = '"
+                    + visita.getHora()+"', DESCRICAO = '"
+                    + visita.getDescricao() + "', STATUS = '"
+                    + visita.getStatus() +"' WHERE CODMORADIA = '"+visita.getIdMoradia()+"' AND CODLOCATARIO = '"+visita.getIdLocatario()+"'");
+             
+            JOptionPane.showMessageDialog(null, "Atualização Realizado", "Atualização", JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e, "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+   
     public String codMoradia(String endereco){
         Conectar();
         String idmoradia = null;
         try{
-            String sql = "SELECT codmoradia from moradia where endereco = '"+endereco+"'";
+            String sql = "SELECT codMoradia from moradia where endereco = '"+endereco+"'";
             PreparedStatement stat = cn.prepareStatement(sql);
             ResultSet rs = stat.executeQuery();
             while(rs.next()){
-                idmoradia = rs.getString("codmoradia");
+                idmoradia = rs.getString("codMoradia");
             }
         }
         catch(Exception erro){
-             JOptionPane.showMessageDialog(null, erro,"Excluir", JOptionPane.WARNING_MESSAGE);
+             JOptionPane.showMessageDialog(null, erro,"Aviso", JOptionPane.WARNING_MESSAGE);
         }
         return idmoradia;
-    }    
+    } 
+    
+    public MarcarVisita visita(String idMoradia, String idLocatario){
+        MarcarVisita visita = new MarcarVisita();
+        visita.setData(null);
+        visita.setHora(null);
+        visita.setDescricao(null);
+        visita.setStatus(null);
+        Conectar();
+        try{
+            String sql = "SELECT datavisita, horavisita, descricao, status from visita where codlocatario = '"+idLocatario+"' and codmoradia = '"+idMoradia+"'"; 
+            PreparedStatement stat2 = cn.prepareStatement(sql);
+            ResultSet rs2 = stat2.executeQuery();
+            while (rs2.next()){
+                visita.setData(rs2.getString("datavisita")); 
+                visita.setHora(rs2.getString("horavisita"));
+                visita.setDescricao(rs2.getString("descricao"));
+                visita.setStatus(rs2.getString("status"));
+            }  
+        }
+        catch(Exception errro){
+            JOptionPane.showMessageDialog(null, errro,"Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        return visita;
+    }
 }
