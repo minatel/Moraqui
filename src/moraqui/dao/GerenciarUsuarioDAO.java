@@ -104,7 +104,7 @@ public class GerenciarUsuarioDAO{
     public GerenciarUsuario consultarUsuarioLocatarioLocator(GerenciarUsuario usuario){
         conectar();
         String sql = "SELECT * from usuario where codusuario = '"+
-                GerenciarUsuario.getId()+"'";
+                usuario.getId()+"'";
         try{
             PreparedStatement stat = cn.prepareStatement(sql);
             ResultSet rs = stat.executeQuery();
@@ -116,6 +116,8 @@ public class GerenciarUsuarioDAO{
                   usuario.setSenha(rs.getString(("senha")));
                   usuario.setEndreco(rs.getString(("endereco")));
                   usuario.setSexo(rs.getString(("sexo")));
+                  usuario.setRg(rs.getString("rg"));
+                  GerenciarUsuario.setTipo(rs.getString("tipo"));
             }
             usuario = consultarTipo(usuario);
         }
@@ -190,6 +192,9 @@ public class GerenciarUsuarioDAO{
                        sql = sql + "alergias, fumante from locatario ";
                     break;
                 case "Locator":
+                        sql = sql + "from locator ";
+                    break;
+                case "Locador":
                         sql = sql + "from locator ";
                     break;
             }

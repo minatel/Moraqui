@@ -37,7 +37,7 @@ public class GerenciarContratoDAO {
         {
             try{
                 Class.forName("org.postgresql.Driver");
-                cn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MoraquiBanco","postgres", "utfpr");
+                cn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/MoraquiBanco","postgres", "postgres");
                 stm = cn.createStatement(); 
                 conectado = true;
             }
